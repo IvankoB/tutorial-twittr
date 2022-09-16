@@ -1,4 +1,4 @@
-/**
+/*
  * @typedef {object} TweetType
  * @property {number}  id       descr
  * @property {string}  content  descr
@@ -11,9 +11,10 @@
  * @property {boolean} liked    descr
  */
 
-
 import prisma from '$root/lib/prisma'
-import '$root/types/home'
+//import '$root/types/home'
+
+/* @typedef {import('$root/lib/prisma').TweetType} Prisma */
 
 import { timePosted } from '$root/utils/date'
 //import { redirect } from '@sveltejs/kit'
@@ -39,11 +40,12 @@ export async function load({ params}) {
 	})
     
     /* @param {TweetType} tweet */
-	const likedTweets = liked.map( /** @param {import('../../types/home).TweetType} tweet */tweet => tweet.tweetId)
+	const likedTweets = liked
+		.map( /** @param { import('$root/lib/prisma').TweetType } tweet */tweet => tweet.id)
 
 	// we can shape the data however we want
 	// so our user doesn't have to pay the cost for it
-	const tweets = tweetsOfUsers.map((tweet) => {
+	const tweets = tweetsOfUsers.map(/** @param {TweetType} tweet */tweet => {
 		return {
 			id: tweet.id,
 			content: tweet.content,
