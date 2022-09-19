@@ -1,5 +1,5 @@
 /**
- * @param {string} createdAt 
+ * @param {Date} createdAt 
  * @returns {string}
  */
 export function timePosted(createdAt) {

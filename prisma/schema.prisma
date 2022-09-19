@@ -11,6 +11,27 @@ generator client {
 }
 
 //------- + by Vano ----------------------------
+//
+// Put to database & types by:
+// --------------------------- 
+//   npx prisma migrate dev --name init
+//
+// then make sure that there're no *.d.ts files in the /prisma directory
+// (they mae break JsDoc type mapping)
+// 
+// Filled with data by:
+// --------------------------- 
+// First preparing script 
+//   'seed.js' 
+// which uses a Prisma client to runs Prisma API commands
+//
+// then appending a command to run 'sed.js' to 'package.json':
+//	"prisma": {
+//		"seed": "node prisma/seed.js"
+//	}
+// then running this command:
+//   npx prisma db seed
+
 
 model Tweet {
   id      Int      @id @default(autoincrement())
