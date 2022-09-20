@@ -3,7 +3,7 @@
  * @property {number}  id       descr
  * @property {string}  content  descr
  * @property {number}  likes    descr
- * @property {Date}  posted   descr
+ * @property {string}  posted   descr
  * @property {string}  url      descr
  * @property {string}  avatar   descr
  * @property {string}  handle   descr
