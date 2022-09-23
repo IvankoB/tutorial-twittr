@@ -1,6 +1,8 @@
+import { redirect, locals } from '@sveltejs/kit'
 import prisma from '$root/lib/prisma'
 import { timePosted } from '$root/utils/date'
-//import { redirect } from '@sveltejs/kit'
+import { invalidate } from '$app/navigation'
+
 //import printR from 'print_r'
 
 //Types (for convinience & typing assistance) :
@@ -14,9 +16,19 @@ import { timePosted } from '$root/utils/date'
 /** @typedef {import('$root/types/home').TweetType} TweetType */ 
 
 //---------------------------------------------------------------------------------------------------
+/*
+	load's return :
+	  Record<string,any> | Promise<Record<string,any>>,
+	  set of keys to be checked against later is taken as keys of actual return structure,
+	  
+	  Notes:
+	    - 'result' is a predefined (expected by 'Svelte') key of OK-result 	
+*/
 
 /** @type {import('./$types').PageServerLoad} */
-export async function load({ params}) {
+export async function load(requestEvent) {
+
+	console.log('info= ' + requestEvent.locals.info)
 
     // get the tweets and the user data (Prisma 😍)
 	// A type of SQL-result of two combined types : 'Tweet' and it's relaton to 'User' on field 'user'
@@ -142,25 +154,32 @@ export async function load({ params}) {
 	routeId:			string | null;
 	setHeaders:			(headers: Record<string, string>) => void;
 	url: URL;
+
+	Action's return :
+	  Record<string,any> | Promise<Record<string,any>>	
 */ 
 
 /** @type {import('./$types').Actions} */
 export const actions = {
 	//----------------------------------------------
-    default: async ({request}/* the type of default action is 'Request' */) => {
-		//const values = await request.formData(); 
-    },
+    // default: async ({request}/* the type of default action is 'Request' */) => {
+	// 	//const values = await request.formData(); 
+    // },
 	//----------------------------------------------
-	POST: async (requestEvent/* the type of rest actions is 'RequestEvent<RouteParams>' */) => {
+// 	showInfo: async (requestEvent/* the type of rest actions is 'RequestEvent<RouteParams>' */) => {
+// 		console.log('info is: ' + (await requestEvent.request.formData()).get('info'))
+// //		return {result : (await requestEvent.request.formData()).get('info') }
+// 		return {}
+// 	},
+	create: async (requestEvent/* the type of rest actions is 'RequestEvent<RouteParams>' */) => {
 		const form = await requestEvent.request.formData()
 		const tweet = String(form.get('tweet'))
 
 		// you should probably use a validation library
 		if (tweet.length > 140) {
 			return {
-				status: 400,
-				body: 'Maximum Tweet length exceeded.',
-				headers: { location: '/home' }
+				body:  // predefined 
+					'Maximum Tweet length exceeded.'
 			}
 		}
 
