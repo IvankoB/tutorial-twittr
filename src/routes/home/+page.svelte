@@ -4,10 +4,11 @@
 	import Info from '$root/components/info.svelte'
 
 	import {print_r} from 'print_r'
+	import { FormCheckError } from '$root/types/common'	
+	import { JsonCheckedParse } from '$root/utils/json'		
 
 	/** @type {import('./$types').PageData} */	
 	export let data
-//console.log('data is:' + print_r(data))	
 
 	// Вынесен в отдельный @typedef в файле определений типа в маршурута '/home/*',
 	// используется для сопряжения с типом, возвращаемым 'load'-функцией, 
@@ -15,11 +16,15 @@
 	/** @type {import('$root/types/home').TweetType[]} */
 	let tweets = data.result
 
-	// /** @type {string} */
-	// let info = data.info
-
+	 // The response type of actions in the bound '+page.server.js'
  	/** @type {import('./$types').ActionData} */  
-	export let form; // response type of actions in the bound '+page.server.js'
+	export let form;
+
+	/** @type {FormCheckError | undefined}*/
+	let checkError = new FormCheckError();
+	checkError = JsonCheckedParse( Object.keys(checkError), form?.body || '{}') 
+console.log('ce => ' + checkError)	
+
 </script>
 
 <svelte:head>
@@ -27,9 +32,9 @@
 </svelte:head>
 
 <slot>
-	<Compose />
-{#if form?.body}  <!-- '?' here selects the non-void type of the 'ActionData' union -->
-	<Info data={form.body}/>
+	<Compose tweet={checkError?.oldValue || ''} maxCharacters={1400}/>
+{#if checkError?.errorMessage}  <!-- '?' here selects the non-void type of the 'ActionData' union -->
+	<Info data={String(checkError.errorMessage)}/>
 {/if}
 
 	<h1>Feed</h1>

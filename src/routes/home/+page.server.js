@@ -1,7 +1,10 @@
-import { redirect, locals } from '@sveltejs/kit'
+import { redirect } from '@sveltejs/kit'
 import prisma from '$root/lib/prisma'
 import { timePosted } from '$root/utils/date'
 import { invalidate } from '$app/navigation'
+import { FormCheckError } from '$root/types/common'
+
+import {print_r} from 'print_r'
 
 //import printR from 'print_r'
 
@@ -174,12 +177,23 @@ export const actions = {
 	create: async (requestEvent/* the type of rest actions is 'RequestEvent<RouteParams>' */) => {
 		const form = await requestEvent.request.formData()
 		const tweet = String(form.get('tweet'))
+		const maxCharacters = parseInt(String(form.get('maxCharacters')))
+		console.log("mc= " + maxCharacters)
+
+		if (tweet.length == 0) {
+			return {
+				body:  JSON.stringify(
+					new FormCheckError("You shouldn't post empty tweets.", tweet)
+				)
+			}
+		}
 
 		// you should probably use a validation library
-		if (tweet.length > 140) {
+		if (tweet.length > maxCharacters) {
 			return {
-				body:  // predefined 
-					'Maximum Tweet length exceeded.'
+				body:  JSON.stringify( 
+					new FormCheckError('Maximum Tweet length exceeded.', tweet)
+				)
 			}
 		}
 

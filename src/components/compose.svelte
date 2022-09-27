@@ -1,8 +1,11 @@
 <script>
-	let tweet = ''
-	let maxCharacters = 1400
+	// They may be overriden
+	export let tweet = ''
+	export let maxCharacters = 1400
 
 	$: charactersLeft = maxCharacters - tweet.length
+
+	console.log("tweet is:" + tweet)
 </script>
 
 <div class="compose">
@@ -25,6 +28,8 @@
 				? 'Tweet'
 				: charactersLeft}
 		</button>
+		<!-- for SSR validating tweet length -->
+		<input type="hidden" name="maxCharacters" value="{maxCharacters}" />
 	</form>
 </div>
 

@@ -1,29 +1,37 @@
 <script>
-    /** @type {string} */
+    /** @type {string | null} */
     export let data
 </script>
 
-<div class="info">
-    <table>
-        <tr>
-            <td>Info</td>
-            <td>
-                {data}
-                <img src="/dancing.png" alt="Person dancing" />
-            </td>
-        </tr>
-    </table>
-</div>
+<table class="info">
+    <tr>
+        <td>
+            <h3>Info:</h3>
+        </td>
+        <td>
+            {data}
+        </td>        
+        <td>
+            <img src="/exclamation.png" alt="Exclamation"/>
+        </td>
+    </tr>
+</table>
 
 <style>
 	.info {
-		display: inline;
-		place-items: center;
+        width: 100%;
+        border:5px solid lightsalmon;
+        background-color: var(--color-brand);
+	}
+
+    td {
+        vertical-align: middle;
+        padding: 3px;
 	}
 
 	img {
-		width: 100px;
-		height: 100px;
+		width: 50px;
+		height: 50px;
 		border-radius: 50%;
 		object-fit: cover;
 	}
