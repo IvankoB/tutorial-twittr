@@ -31,7 +31,7 @@ import {print_r} from 'print_r'
 /** @type {import('./$types').PageServerLoad} */
 export async function load(requestEvent) {
 
-	console.log('info= ' + requestEvent.locals.info)
+//	console.log('info= ' + requestEvent.locals.info)
 
     // get the tweets and the user data (Prisma 😍)
 	// A type of SQL-result of two combined types : 'Tweet' and it's relaton to 'User' on field 'user'
@@ -178,7 +178,7 @@ export const actions = {
 		const form = await requestEvent.request.formData()
 		const tweet = String(form.get('tweet'))
 		const maxCharacters = parseInt(String(form.get('maxCharacters')))
-		console.log("mc= " + maxCharacters)
+//		console.log("mc= " + maxCharacters)
 
 		if (tweet.length == 0) {
 			return {
@@ -209,6 +209,11 @@ export const actions = {
 		})
 
 		return {}
+	},
+	delete: async (requestEvent/* the type of rest actions is 'RequestEvent<RouteParams>' */) => {
+		const form = await requestEvent.request.formData()
+		const tweetId = parseInt(String(form.get('id')))
+		await prisma.tweet.delete({ where: { id: tweetId } })
 	}
 	//----------------------------------------------
 

@@ -21,9 +21,8 @@
 	export let form;
 
 	/** @type {FormCheckError | undefined}*/
-	let checkError = new FormCheckError();
-	checkError = JsonCheckedParse( Object.keys(checkError), form?.body || '{}') 
-console.log('ce => ' + checkError)	
+	let checkError = JsonCheckedParse( Object.keys(new FormCheckError()), form?.body || '{}') 
+//console.log('ce => ' + checkError)	
 
 </script>
 

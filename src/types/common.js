@@ -1,5 +1,5 @@
 //---------------------------------------------------------------- 
-export class FormCheckError /*extends Object*/ {
+export class FormCheckError {
     constructor(
         /** @type {string?}*/ message, 
         /** @type {string?}*/oldValue

@@ -37,9 +37,10 @@
     return true;
 }
 //---------------------------------------------------------------- 
+/* @param   { Object<keyof T,string>[] } keys2Check */
 /**
  * @template T
- * @param   { Object<keyof T,string>[] } keys2Check 
+ * @param   { Object<keyof T,any>[] } keys2Check 
  * @param   { string } jsonString
  * @returns { T | undefined }
  */

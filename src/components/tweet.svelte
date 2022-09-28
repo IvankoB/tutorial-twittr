@@ -75,7 +75,7 @@
 					</div>
 				</a>
 
-				<form action="/home?_method=delete" method="post">
+				<form action="/home?/delete" method="post">
 					<input type="hidden" name="id" value={tweet.id} />
 					<button
 						aria-label="Remove tweet"
@@ -88,6 +88,8 @@
 						</div>
 					</button>
 				</form>
+
+
 			</div>
 		</div>
 	</div>
